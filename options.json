@@ -1,0 +1,82 @@
+{
+  "site": "http://example.com",
+  "src": "src/",
+  "dest": "dist/",
+  "include": [
+    "src/include/",
+    "src/sass/page/"
+  ],
+  "sass": {
+    "src": "src/sass/**/*.scss",
+    "dest": "dist/css/"
+  },
+  "js": {
+    "src": "src/js/**/*.js",
+    "dest": "dist/js/"
+  },
+  "img": {
+    "src": [
+      "src/img/**/*.{jpg,png}",
+      "!src/img/{sprite,responsive}/**/*.*"
+    ],
+    "dest": "dist/img/"
+  },
+  "responsive": {
+    "src": "src/img/responsive/**/*.{jpg,png}",
+    "dest": "dist/img/",
+    "sizes": [
+      400,
+      600,
+      800,
+      1000,
+      1200
+    ]
+  },
+  "sprite": {
+    "src": "src/img/sprite/",
+    "dest": "dist/img/sprite/",
+    "sass": "src/sass/sprite/",
+    "relative": "../img/sprite/"
+  },
+  "font": {
+    "sass": "src/sass/_fonts.scss",
+    "dest": "dist/font/",
+    "relative": "../font/",
+    "types": {
+      "Roboto": true
+    }
+  },
+  "favicon": {
+    "src": "src/favicon.png",
+    "dest": "dist/icon/",
+    "html": "src/include/",
+    "path": "/icon/",
+    "manifest": {
+      "appName": null,
+      "appDescription": null,
+      "developerName": null,
+      "developerURL": null,
+      "background": "#16a085",
+      "display": "standalone",
+      "orientation": "portrait"
+    }
+  },
+  "html": {
+    "src": [
+      "src/**/*.html",
+      "!src/include/**/*.*"
+    ],
+    "dest": "dist/"
+  },
+  "copy": {
+    "src": [
+      "src/**/*.*",
+      "!src/**/*.{html,php,scss,css,jpg,png,jpeg,gif,js}"
+    ],
+    "dest": "dist/"
+  },
+  "sitemap": {
+    "src": "**/*.{html}",
+    "dest": "dist/"
+  }
+}
