@@ -56,7 +56,7 @@ module.exports = function(options) {
 			queue: "main",
 			plugins: ['gulp-htmlmin','through2','gulp-replace-include'],
 			defaults: {
-				src: `${options.src}/**/.html`,
+				src: `${options.src}/**/*.html`,
 				dest: options.dest,
 			},
 			task: () => gulp.src(options.html.src)
@@ -65,7 +65,7 @@ module.exports = function(options) {
 					include: options.include || [],
 					global: options.global || {},
 				}))
-				.pipe(plugins.htmlminifier({
+				.pipe(plugins.htmlmin({
 					collapseWhitespace: true,
 					conservativeCollapse:true,
 					minifyCSS: true,
@@ -88,7 +88,7 @@ module.exports = function(options) {
 					global: options.global || {},
 				}))
 				.pipe(plugins.sass())								// [main] : compile sass
-				.pipe(plugins.autoprefixer('last 10 versions'))	// [main] : add vendor prefixes
+				.pipe(plugins.autoprefixer('last 10 versions'))  	// [main] : add vendor prefixes
 				.pipe(plugins.csso())								// [main] : minify CSS
 				.pipe(gulp.dest(options.sass.dest))
 		},

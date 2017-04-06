@@ -1,6 +1,11 @@
 
 /*
-require('./index')({
+
+Example gulpfile.
+
+To use this 
+
+require('sprawld-gulp-boilerplate')({
 	src: 'src/',
 	dest: 'dist/',
 	all: true,
@@ -10,19 +15,19 @@ require('./index')({
 var gulp = require('gulp');
 var _ = require('underscore');
 var fs = require('fs');
-var sequence = require('gulp-sequence');
-var changed = require('gulp-changed');	// check to see if file has changed
-var plumber = require('gulp-plumber'); 	// stops gulp failing on error
 
 
 // Copy Files
 
+var changed = require('gulp-changed');	// check to see if file has changed
+var plumber = require('gulp-plumber'); 	// stops gulp failing on error
+
 gulp.task('copy', () => 
 	gulp.src(["src/**/*.*","!src/**/*.{html,php,scss,css,jpg,png,jpeg,gif,js}"])
 		.pipe(plumber())
-		.pipe()
-		.pipe(gulp.dest("dist/"));
-});
+		.pipe(changed("dist/"))
+		.pipe(gulp.dest("dist/"))
+);
 
 
 // HTML
@@ -184,6 +189,7 @@ gulp.task('sprite', function () {
 
 var favicons = require('gulp-favicons');
 var replace = require('gulp-replace');
+var sequence = require('gulp-sequence');
 
 gulp.task('favicon', function () {
 	
