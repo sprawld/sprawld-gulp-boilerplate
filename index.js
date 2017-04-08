@@ -8,16 +8,7 @@
 
 var tasklist = ["sass","js","img","responsive","sprite","font","favicon","html","copy","sitemap"];
 
-module.exports = function(options) {
-
-	if(!options.src || !options.dest) {
-		console.log('src and dest are requires options')
-	}
-
-	if(options.all) {
-		tasklist.forEach(name => options[name] = true);
-	}
-
+module.exports = function(opts) {
 
 	var gulp = require('gulp'),
 		_ = require('underscore'),
@@ -28,7 +19,16 @@ module.exports = function(options) {
 		plumber = require('gulp-plumber'),
 		changed = require('gulp-changed');
 
-	// var htmlmin = require('html-minifier').minify;
+
+	var options = _.extend({
+		src: 'src/',
+		dest: 'dist/',
+	},opts);
+	
+	if(options.all) {
+		tasklist.forEach(name => options[name] = true);
+	}
+
 
 	var plugins = {};
 
@@ -95,7 +95,7 @@ module.exports = function(options) {
 
 		js: {
 			queue: "main",
-			plugins: ["gulp-uglify","gulp-babel","gulp-replace-include"],
+			plugins: ["gulp-uglify","gulp-replace-include"],
 			defaults: {
 				src: `${options.src}/**/*.js`,
 				dest: options.dest
@@ -107,7 +107,7 @@ module.exports = function(options) {
 					include: options.include || [],
 					global: options.global || {},
 				}))
-				.pipe(plugins.babel({ presets: ['es2015'] }))	// [main] : transpiler
+				// .pipe(plugins.babel({ presets: ['es2015'] }))	// [main] : transpiler
 				.pipe(plugins.uglify())							// [main] : minify javascript
 				.pipe(gulp.dest(options.js.dest)),
 		},
@@ -375,7 +375,7 @@ module.exports = function(options) {
 
 			queues[t.queue].push(name);
 			
-			console.log(`Task ${name} : ${JSON.stringify(options[name])}`)
+			if(options.console) console.log(`Task ${name} : ${JSON.stringify(options[name])}`)
 
 			gulp.task(name,t.task);
 			
@@ -394,6 +394,17 @@ module.exports = function(options) {
 	gulp.task('build',sequence.apply(null,build));
 	gulp.task('dist',sequence.apply(null,build));
 
+	gulp.task('serve',function() {
+
+		var server = require('gulp-server-livereload');
+
+		return gulp.src(options.dest).pipe(server({
+			livereload: true,
+			defaultFile: "index.html",
+		}));
+
+	});
+
 	gulp.task('watch',function() {
 		
 		for(var name in tasks) {
@@ -408,6 +419,9 @@ module.exports = function(options) {
 		}
 			
 	});
+
+	gulp.task('default',sequence('dist',['watch','serve']));
+
 
 }
 
